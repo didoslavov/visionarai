@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={`${inter.className} bg-gradient-to-r from-teal-100 to-lime-50 flex`}>
+            <body className={`${inter.className} bg-gradient-to-tr from-lime-50 to-teal-100 flex`}>
                 <SideNav />
                 {children}
             </body>
