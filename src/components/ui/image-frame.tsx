@@ -1,4 +1,4 @@
-import { TransformerData } from '@/app/page';
+import { TransformerData } from '@/app/object-detection/page';
 import { useMemo } from 'react';
 
 interface FrameProps {
