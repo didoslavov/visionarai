@@ -1,4 +1,4 @@
-import { pipeline, env, PipelineType } from '@xenova/transformers';
+import { pipeline, env, type PipelineType } from '@xenova/transformers';
 
 env.allowLocalModels = false;
 

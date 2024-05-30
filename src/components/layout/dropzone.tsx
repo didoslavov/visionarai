@@ -1,8 +1,8 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FileError, FileRejection, useDropzone } from 'react-dropzone';
-import { TransformerData } from '@/app/object-detection/page';
+import { type SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { type FileError, type FileRejection, useDropzone } from 'react-dropzone';
+import type { TransformerData } from '@/app/object-detection/page';
 import Image from 'next/image';
 import Frame from '../ui/image-frame';
 import { IoMdClose } from 'react-icons/io';
@@ -62,7 +62,7 @@ const Dropzone = ({ status, className, detector, result, setResult, setStatus }:
         return () => files.forEach((file) => URL.revokeObjectURL(file.preview || ''));
     }, [files]);
 
-    const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const handleImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
         const img = event.currentTarget;
         if (imageRef.current) {
             const originalWidth = img.naturalWidth;
@@ -98,9 +98,7 @@ const Dropzone = ({ status, className, detector, result, setResult, setStatus }:
             </div>
             <section className="mt-6">
                 {files.length > 0 && (
-                    <div
-                        className="relative h-[500px] rounded-xl shadow-lpeline.task = task;
-        Pipg">
+                    <div className="relative h-[500px] rounded-xl shadow-lg">
                         <Image
                             width={100}
                             height={100}
