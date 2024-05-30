@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { FileError, FileRejection, useDropzone } from 'react-dropzone';
-import { TransformerData } from '@/app/page';
+import { TransformerData } from '@/app/object-detection/page';
 import Image from 'next/image';
 import Frame from '../ui/image-frame';
 import { IoMdClose } from 'react-icons/io';
@@ -98,7 +98,9 @@ const Dropzone = ({ status, className, detector, result, setResult, setStatus }:
             </div>
             <section className="mt-6">
                 {files.length > 0 && (
-                    <div className="relative h-[500px] rounded-xl shadow-lg">
+                    <div
+                        className="relative h-[500px] rounded-xl shadow-lpeline.task = task;
+        Pipg">
                         <Image
                             width={100}
                             height={100}
