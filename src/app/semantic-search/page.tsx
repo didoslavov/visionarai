@@ -4,12 +4,13 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { cosineSimilarity } from '@/utils/cosine-similarity';
 import ModelHeader from '@/components/ui/model-header';
 import Status from '@/components/ui/status';
-import TextArea from '@/components/layout/embedded-search';
+import EmbeddedSearch from '@/components/layout/embedded-search';
 
 export type EmbeddingData = number[][];
+export type EmbeddingResult = { text: string; similarity: number }[];
 
 export default function SemanticSearch() {
-    const [result, setResult] = useState<string[] | null>(null);
+    const [result, setResult] = useState<EmbeddingResult | null>(null);
     const [progress, setProgress] = useState(0);
     const [ready, setReady] = useState<boolean | null>(null);
     const [status, setStatus] = useState('loading');
@@ -41,10 +42,8 @@ export default function SemanticSearch() {
                     break;
                 case 'complete':
                     if (e.data.result.length === 1) {
-                        // If only one vector is returned, it must be the query vector
                         setQueryVector(e.data.result[0]);
                     } else {
-                        // If multiple vectors are returned, they must be the text vectors
                         setTextVectors(e.data.result);
                     }
                     setStatus('complete');
@@ -61,14 +60,12 @@ export default function SemanticSearch() {
         setTexts(texts);
         setStatus('processing');
 
-        // First, vectorize the query
         if (worker.current) {
-            worker.current.postMessage({ input: [query], task: 'feature-extraction', model: 'Supabase/gte-small' });
+            worker.current.postMessage({ input: [query], task: 'feature-extraction', model: 'Xenova/all-MiniLM-L6-v2' });
         }
 
-        // Then, vectorize the texts
         if (worker.current) {
-            worker.current.postMessage({ input: texts, task: 'feature-extraction', model: 'Supabase/gte-small' });
+            worker.current.postMessage({ input: texts, task: 'feature-extraction', model: 'Xenova/all-MiniLM-L6-v2' });
         }
     }, []);
 
@@ -77,9 +74,12 @@ export default function SemanticSearch() {
             const similarities = textVectors.map((embedding: number[]) => cosineSimilarity(embedding, queryVector));
 
             const sortedTexts = texts
-                .map((text, index) => ({ text, similarity: similarities[index] }))
+                .map((text, index) => {
+                    const similarityPercentage = Math.round(similarities[index] * 100); // Calculate similarity percentage
+                    return { text, similarity: similarityPercentage }; // Store text and similarity percentage
+                })
                 .sort((a, b) => b.similarity - a.similarity)
-                .map((item) => item.text);
+                .map((item) => item);
             setResult(sortedTexts);
         }
     }, [status, queryVector, textVectors, texts]);
@@ -91,7 +91,7 @@ export default function SemanticSearch() {
                     <ModelHeader heading="Text Embedding" sub="using HuggingFace and Transformers.js" />
                     <Status ready={ready} progress={progress} />
                 </div>
-                <TextArea status={status} setStatus={setStatus} onExtractFeatures={handleExtractFeatures} result={result} />
+                <EmbeddedSearch status={status} setStatus={setStatus} onExtractFeatures={handleExtractFeatures} result={result} />
             </div>
         </section>
     );
