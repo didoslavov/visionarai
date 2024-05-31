@@ -4,7 +4,7 @@ import { EmbeddingResult } from '@/app/semantic-search/page';
 import { sampleData } from '@/constants/sample-data';
 import { cn } from '@/utils/cn';
 import { getSimilarityColor } from '@/utils/similarity-color';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MdAutoAwesome } from 'react-icons/md';
 import Loading from '../ui/loading';
 
@@ -19,15 +19,17 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
     const [text, setText] = useState('');
     const [query, setQuery] = useState('');
     const [attention, setAttention] = useState(false);
+    const [processing, setProcessing] = useState(false);
 
     const handleExtractFeatures = () => {
+        setProcessing(true);
         setAttention(false);
         const texts = text
             .split('.')
             .join('\n')
             .split('\n')
             .filter((line) => line.trim() !== '');
-        setStatus('processing');
+        setStatus('progress');
         onExtractFeatures(texts, query);
     };
 
@@ -41,6 +43,12 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
         setQuery('Gentle rain in the nature, feels energizing!');
         setAttention(true);
     };
+
+    useEffect(() => {
+        if (result?.length) {
+            setProcessing(false);
+        }
+    }, [result?.length]);
 
     return (
         <>
@@ -73,8 +81,8 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
                     </button>
                 </div>
             </div>
-            {status !== 'complete' && (
-                <div className="mt-4 flex items-center justify-center text-2xl text-teal-950 font-bold text-center">
+            {processing && (
+                <div className="mt-20 flex items-center justify-center text-2xl text-teal-950 font-bold text-center">
                     <span className="text-3xl">Processing</span>
                     <Loading />
                 </div>
