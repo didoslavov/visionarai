@@ -1,10 +1,10 @@
 'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { cosineSimilarity } from '@/utils/cosine-similarity';
 import ModelHeader from '@/components/ui/model-header';
 import Status from '@/components/ui/status';
 import EmbeddedSearch from '@/components/layout/embedded-search';
+import { cos_sim } from '@xenova/transformers';
 
 export type EmbeddingData = number[][];
 export type EmbeddingResult = { text: string; similarity: number }[];
@@ -71,7 +71,7 @@ export default function SemanticSearch() {
 
     useEffect(() => {
         if (status === 'complete' && queryVector.length > 0 && textVectors.length > 0) {
-            const similarities = textVectors.map((embedding: number[]) => cosineSimilarity(embedding, queryVector));
+            const similarities = textVectors.map((embedding: number[]) => cos_sim(embedding, queryVector));
 
             const sortedTexts = texts
                 .map((text, index) => {
