@@ -4,6 +4,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Progress } from '@/components/ui/progress';
 import { BiCheckDouble } from 'react-icons/bi';
 import Dropzone from '@/components/layout/dropzone';
+import Status from '@/components/ui/status';
+import ModelHeader from '@/components/ui/model-header';
 
 export type TransformerData = {
     score: number;
@@ -16,7 +18,7 @@ export type TransformerData = {
     };
 };
 
-export default function Home() {
+export default function ObjectDetection() {
     const [result, setResult] = useState<TransformerData[] | null>(null);
     const [progress, setProgress] = useState(0);
     const [ready, setReady] = useState<boolean | null>(null);
@@ -66,21 +68,8 @@ export default function Home() {
         <section className="py-12 flex-1">
             <div className="container max-w-4xl">
                 <div className="flex justify-between items-end">
-                    <div>
-                        <h1 className="text-4xl font-bold text-zinc-800">Detect objects</h1>
-                        <h3 className="text-lg text-zinc-600">in images using HuggingFace and Transformers.js</h3>
-                    </div>
-                    {ready ? (
-                        <div className="flex font-bold items-center justify-end gap-2 text-emerald-600">
-                            <p>Transformer Ready</p>
-                            <BiCheckDouble className="text-3xl" />
-                        </div>
-                    ) : (
-                        <div className="text-end">
-                            <p>Transformer status</p>
-                            {!ready && <Progress value={progress} />}
-                        </div>
-                    )}
+                    <ModelHeader heading="Object Detection" sub="in images using HuggingFace and Transformers.js" />
+                    <Status ready={ready} progress={progress} />
                 </div>
                 <Dropzone
                     status={status}

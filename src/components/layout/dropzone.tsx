@@ -6,7 +6,7 @@ import type { TransformerData } from '@/app/object-detection/page';
 import Image from 'next/image';
 import Frame from '../ui/image-frame';
 import { IoMdClose } from 'react-icons/io';
-import { cn } from '@/lib/utils';
+import { cn } from '@/utils/cn';
 
 type DropzoneProps = {
     status: string;
