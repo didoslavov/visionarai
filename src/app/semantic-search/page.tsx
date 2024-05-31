@@ -75,8 +75,8 @@ export default function SemanticSearch() {
 
             const sortedTexts = texts
                 .map((text, index) => {
-                    const similarityPercentage = Math.round(similarities[index] * 100); // Calculate similarity percentage
-                    return { text, similarity: similarityPercentage }; // Store text and similarity percentage
+                    const similarityPercentage = Math.round(similarities[index] * 100);
+                    return { text, similarity: similarityPercentage };
                 })
                 .sort((a, b) => b.similarity - a.similarity)
                 .map((item) => item);
