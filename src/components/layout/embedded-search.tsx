@@ -65,7 +65,12 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
                     placeholder="Enter your search query here"
                     className="w-full p-2 md:text-base text-sm md:p-4 mt-4 rounded-xl border border-teal-950 focus:outline-none focus:ring-2 bg-lime-50 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
                 />
-                <div className="flex w-full justify-between">
+                {attention && (
+                    <p className="text-lime-700 text-center text-sm font-bold p-2 mt-4">
+                        Here&apos;s 50 sentances with different topics to test the semantic search
+                    </p>
+                )}
+                <div className="flex w-full justify-between items-center">
                     <button
                         onClick={handleExtractFeatures}
                         className={cn(
