@@ -26,9 +26,9 @@ const SideNav = () => {
 
             <div
                 className={cn(
-                    'fixed top-0 left-0 bg-opacity-90 h-2/3 z-50 rounded-br-xl lg:h-full bg-teal-950 shadow-lg text-lime-50 w-64 space-y-6 pt-2 pb-7 px-2 transform transition-transform duration-500 ease-in-out',
+                    'fixed top-0 left-0 bg-opacity-90 h-2/3 z-50 rounded-br-xl lg:rounded-none lg:h-screen bg-teal-950 shadow-lg text-lime-50 w-64 space-y-6 pt-2 pb-7 px-2 transform transition-transform duration-500 ease-in-out',
                     isOpen ? 'translate-x-0' : '-translate-x-full',
-                    'lg:translate-x-0 lg:static lg:block'
+                    'lg:translate-x-0 lg:sticky lg:block'
                 )}>
                 <div className="flex justify-end pr-2 lg:hidden">
                     <button type="button">

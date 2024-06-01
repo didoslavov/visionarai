@@ -86,7 +86,7 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
                     </button>
                 </div>
             </div>
-            {processing && (
+            {processing && !result && (
                 <div className="mt-20 flex items-center justify-center text-2xl text-teal-950 font-bold text-center">
                     <span className="text-3xl">Processing</span>
                     <Loading />
