@@ -57,26 +57,26 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
                     value={text}
                     onChange={(e) => setText(e.target.value)}
                     placeholder="Enter your texts here"
-                    className="w-full h-64 p-4 resize-none rounded-xl border border-teal-950 focus:outline-none focus:ring-2 bg-lime-50 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
+                    className="w-full h-64 p-2 md:text-base text-sm md:p-4 resize-none rounded-xl border border-teal-950 focus:outline-none focus:ring-2 bg-lime-50 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
                 />
                 <input
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Enter your search query here"
-                    className="w-full p-4 mt-4 rounded-xl border border-teal-950 focus:outline-none focus:ring-2 bg-lime-50 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
+                    className="w-full p-2 md:text-base text-sm md:p-4 mt-4 rounded-xl border border-teal-950 focus:outline-none focus:ring-2 bg-lime-50 focus:ring-teal-500 focus:border-transparent transition-colors duration-300"
                 />
                 <div className="flex w-full justify-between">
                     <button
                         onClick={handleExtractFeatures}
                         className={cn(
-                            'mt-4 px-6 py-2 bg-teal-700 hover:bg-teal-800 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300 text-lime-50 rounded-xl',
+                            'mt-4 px-3 md:text-base text-sm md:px-6 py-2 bg-teal-700 hover:bg-teal-800 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300 text-lime-50 rounded-xl',
                             attention && 'animate-pulse repeat-infinite duration-1000'
                         )}>
                         {attention ? 'Try it' : 'Search'}
                     </button>
                     <button
                         onClick={handleLoadSampleData}
-                        className="mt-4 px-6 py-2 bg-lime-400 hover:bg-lime-500 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300 text-teal-950 rounded-xl">
+                        className="mt-4 px-3 md:text-base text-sm md:px-6 py-2 bg-lime-400 hover:bg-lime-500 font-semibold focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent transition-colors duration-300 text-teal-950 rounded-xl">
                         Load Sample
                     </button>
                 </div>
@@ -102,7 +102,7 @@ const EmbeddedSearch = ({ status, onExtractFeatures, result, setStatus }: Embedd
                                 )}>
                                 Similarity of {similarity}%
                             </h3>
-                            <p className="py-2 px-6 text-lime-50 font-medium rounded mb-4">{text}</p>
+                            <p className="py-2 px-2 md:text-base text-sm md:px-6 text-lime-50 font-medium rounded mb-4">{text}</p>
                         </div>
                     ))}
                 </div>

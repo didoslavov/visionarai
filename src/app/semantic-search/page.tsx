@@ -87,7 +87,7 @@ export default function SemanticSearch() {
     return (
         <section className="py-12 flex-1">
             <div className="container max-w-4xl">
-                <div className="flex justify-between items-end">
+                <div className="flex sm:flex-row flex-col sm:justify-between gap-2 sm:gap-0 sm:items-end">
                     <ModelHeader heading="Text Embedding" sub="using HuggingFace and Transformers.js" />
                     <Status ready={ready} progress={progress} />
                 </div>
