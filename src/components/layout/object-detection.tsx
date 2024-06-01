@@ -1,6 +1,6 @@
 'use client';
 
-import { type SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { type FileError, type FileRejection, useDropzone } from 'react-dropzone';
 import type { TransformerData } from '@/app/object-detection/page';
 import Image from 'next/image';
@@ -8,7 +8,7 @@ import Frame from '../ui/image-frame';
 import { IoMdClose } from 'react-icons/io';
 import { cn } from '@/utils/cn';
 
-type DropzoneProps = {
+type ObjectDetectionContentProps = {
     status: string;
     setStatus: Function;
     detector: Function;
@@ -19,12 +19,10 @@ type DropzoneProps = {
 
 type FileWithPreview = File & { preview?: string };
 
-const Dropzone = ({ status, className, detector, result, setResult, setStatus }: DropzoneProps) => {
+const ObjectDetectionContent = ({ status, className, detector, result, setResult, setStatus }: ObjectDetectionContentProps) => {
     const [files, setFiles] = useState<FileWithPreview[]>([]);
     const [rejected, setRejected] = useState<FileRejection[]>([]);
-
-    const imageRef = useRef<HTMLImageElement>(null);
-    const [scaleFactors, setScaleFactors] = useState({ scaleX: 1, scaleY: 1 });
+    const imageContainerRef = useRef<HTMLDivElement>(null);
 
     const onDrop = useCallback(
         (accepted: FileWithPreview[], rejected: FileRejection[]) => {
@@ -58,28 +56,18 @@ const Dropzone = ({ status, className, detector, result, setResult, setStatus }:
         onDrop,
     });
 
-    useEffect(() => {
-        return () => files.forEach((file) => URL.revokeObjectURL(file.preview || ''));
-    }, [files]);
-
-    const handleImageLoad = (event: SyntheticEvent<HTMLImageElement>) => {
-        const img = event.currentTarget;
-        if (imageRef.current) {
-            const originalWidth = img.naturalWidth;
-            const originalHeight = img.naturalHeight;
-            const displayedWidth = imageRef.current.clientWidth;
-            const displayedHeight = imageRef.current.clientHeight;
-            setScaleFactors({
-                scaleX: displayedWidth / originalWidth,
-                scaleY: displayedHeight / originalHeight,
-            });
-        }
-    };
-
     const deleteImage = () => {
         setFiles([]);
         setRejected([]);
     };
+
+    useEffect(() => {
+        if (files.length > 0 && imageContainerRef.current) {
+            imageContainerRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        return () => files.forEach((file) => URL.revokeObjectURL(file.preview || ''));
+    }, [files]);
 
     return (
         <>
@@ -98,23 +86,15 @@ const Dropzone = ({ status, className, detector, result, setResult, setStatus }:
             </div>
             <section className="mt-6">
                 {files.length > 0 && (
-                    <div className="relative h-[500px] rounded-xl shadow-lg">
+                    <div ref={imageContainerRef} className="relative h-fit rounded-xl shadow-lg">
                         <Image
                             width={100}
                             height={100}
-                            ref={imageRef}
                             src={files[0].preview || ''}
                             alt={files[0].name}
-                            onLoad={handleImageLoad}
-                            className={cn(
-                                'h-full w-full rounded-xl overflow-hidden object-cover',
-                                status !== 'complete' && 'animate-pulse'
-                            )}
+                            className={cn('h-full w-full rounded-xl overflow-hidden', status !== 'complete' && 'animate-pulse')}
                         />
-                        {result &&
-                            result.map((object: TransformerData, index: number) => (
-                                <Frame key={index} object={object} scaleX={scaleFactors.scaleX} scaleY={scaleFactors.scaleY} />
-                            ))}
+                        {result && result.map((object: TransformerData, index: number) => <Frame key={index} object={object} />)}
                         <button
                             type="button"
                             className="absolute -right-3 -top-3 z-10 flex h-7 w-7 items-center justify-center rounded-full border border-rose-500 bg-rose-500 text-lime-50 transition-colors hover:bg-lime-50 hover:text-rose-500"
@@ -158,4 +138,4 @@ const Dropzone = ({ status, className, detector, result, setResult, setStatus }:
     );
 };
 
-export default Dropzone;
+export default ObjectDetectionContent;

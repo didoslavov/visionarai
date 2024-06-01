@@ -6,6 +6,7 @@ type ResolvedPipelineInstance = Awaited<ReturnType<typeof pipeline>>;
 
 interface PipelineOptions {
     progress?: boolean;
+    percentage?: boolean;
     pooling?: 'mean' | 'max' | 'cls';
     normalize?: boolean;
 }
@@ -32,7 +33,7 @@ class PipelineSingleton {
     }
 }
 
-type DetectorFunction = (input: string, options?: PipelineOptions) => Promise<ResolvedPipelineInstance>;
+type PipelineFunction = (input: string, options?: PipelineOptions) => Promise<ResolvedPipelineInstance>;
 
 self.addEventListener('message', async (event) => {
     const { input, task, model } = event.data;
@@ -40,14 +41,14 @@ self.addEventListener('message', async (event) => {
     switch (task) {
         case 'object-detection':
             const detector = await PipelineSingleton.getInstance(task, model, {});
-            const detectorFunc: DetectorFunction = detector as unknown as DetectorFunction;
-            const result = await detectorFunc(input);
+            const detectorFunc: PipelineFunction = detector as unknown as PipelineFunction;
+            const result = await detectorFunc(input, { percentage: true });
 
             self.postMessage({ status: 'complete', result });
             break;
         case 'feature-extraction':
             const extractor = await PipelineSingleton.getInstance(task, model, { quantized: false });
-            const extractorFunc: DetectorFunction = extractor as unknown as DetectorFunction;
+            const extractorFunc: PipelineFunction = extractor as unknown as PipelineFunction;
             const embeddings = await Promise.all(
                 input.map(async (text: string) => {
                     const output = await extractorFunc(text, { pooling: 'mean', normalize: true });

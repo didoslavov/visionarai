@@ -3,20 +3,18 @@ import { useMemo } from 'react';
 
 interface FrameProps {
     object: TransformerData;
-    scaleX: number;
-    scaleY: number;
 }
 
-export default function Frame({ object, scaleX, scaleY }: FrameProps) {
+export default function Frame({ object }: FrameProps) {
     const { box, label } = object;
     const { xmax, xmin, ymax, ymin } = box;
 
     const color = useMemo(() => getRandomHexColor(), []);
 
-    const left = `${xmin * scaleX}px`;
-    const top = `${ymin * scaleY}px`;
-    const width = `${(xmax - xmin) * scaleX}px`;
-    const height = `${(ymax - ymin) * scaleY}px`;
+    const left = 100 * xmin + '%';
+    const top = 100 * ymin + '%';
+    const width = 100 * (xmax - xmin) + '%';
+    const height = 100 * (ymax - ymin) + '%';
 
     return (
         <>
