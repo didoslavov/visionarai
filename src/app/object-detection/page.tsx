@@ -1,8 +1,6 @@
 'use client';
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { Progress } from '@/components/ui/progress';
-import { BiCheckDouble } from 'react-icons/bi';
 import ObjectDetectionContent from '@/components/layout/object-detection';
 import Status from '@/components/ui/status';
 import ModelHeader from '@/components/ui/model-header';
